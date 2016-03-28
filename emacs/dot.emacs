@@ -3,9 +3,9 @@
 
 ;; pakage repository
 (require 'package)
-(setq package-archives '(("gnu"	      . "https://elpa.gnu.org/packages/")
-			 ("marmalade" . "https://marmalade-repo.org/packages/")
-			 ("melpa"     . "https://melpa.milkbox.net/packages/")))
+(add-to-list 'package-archives
+	     '(("marmalade" . "https://marmalade-repo.org/packages/")
+	       ("melpa"     . "https://melpa.milkbox.net/packages/")))
 (package-initialize)
 
 (setq c-default-style "bsd")
@@ -13,6 +13,20 @@
 ;; Highlight lines with more than 80 columns
 (setq column-enforce-comments nil)
 (setq column-enforce-column 80)
+
+;; GNU Global source browsing
+(require 'ggtags)
+(add-hook 'c-mode-common-hook
+	  (lambda()
+	    (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
+	      (ggtags-mode 1))))
+(define-key ggtags-mode-map (kbd "C-c g s") 'ggtags-find-other-symbol)
+(define-key ggtags-mode-map (kbd "C-c g h") 'ggtags-view-tag-history)
+(define-key ggtags-mode-map (kbd "C-c g r") 'ggtags-find-reference)
+(define-key ggtags-mode-map (kbd "C-c g f") 'ggtags-find-file)
+(define-key ggtags-mode-map (kbd "C-c g c") 'ggtags-create-tags)
+(define-key ggtags-mode-map (kbd "C-c g u") 'ggtags-update-tags)
+(define-key ggtags-mode-map (kbd "M-,") 'pop-tag-mark)
 
 ;; vala
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/elpa/vala-mode-0.1"))
