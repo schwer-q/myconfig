@@ -3,9 +3,13 @@
 
 ;; pakage repository
 (require 'package)
-(add-to-list 'package-archives
-	     '(("marmalade" . "https://marmalade-repo.org/packages/")
-	       ("melpa"     . "https://melpa.milkbox.net/packages/")))
+(setq package-archives
+      '(("marmalade" . "https://marmalade-repo.org/packages/")
+	("melpa" . "https://melpa.org/packages/")
+	("gnu" . "https://elpa.gnu.org/packages/")))
+;; (add-to-list 'package-archives
+;; 	     '(("marmalade" . "https://marmalade-repo.org/packages/")
+;; 	       ("melpa"     . "https://melpa.org/packages/")))
 (package-initialize)
 
 (setq c-default-style "bsd")
@@ -27,6 +31,11 @@
 (define-key ggtags-mode-map (kbd "C-c g c") 'ggtags-create-tags)
 (define-key ggtags-mode-map (kbd "C-c g u") 'ggtags-update-tags)
 (define-key ggtags-mode-map (kbd "M-,") 'pop-tag-mark)
+
+;; Company
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+(add-to-list 'company-backends 'company-c-headers)
 
 ;; vala
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/elpa/vala-mode-0.1"))
