@@ -1,0 +1,17 @@
+[ui]
+# username =
+verbose = True
+
+[extensions]
+color =
+hgext.bookmarks =
+hgext.convert =
+hggit =
+pager =
+progress =
+
+[color]
+mode = auto
+
+[pager]
+pager = most
