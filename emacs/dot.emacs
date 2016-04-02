@@ -7,16 +7,57 @@
       '(("marmalade" . "https://marmalade-repo.org/packages/")
 	("melpa" . "https://melpa.org/packages/")
 	("gnu" . "https://elpa.gnu.org/packages/")))
-;; (add-to-list 'package-archives
-;; 	     '(("marmalade" . "https://marmalade-repo.org/packages/")
-;; 	       ("melpa"     . "https://melpa.org/packages/")))
 (package-initialize)
 
+(defvar required-packages
+  '(column-enforce-mode
+    company
+    company-c-headers
+    ggtags))
+
+(unless package-archive-contents
+  (package-refresh-contents))
+(dolist (p required-packages)
+  (unless (package-installed-p p)
+        (package-install p)))
+
+;; Clock
+(setq display-time-and-date t
+      display-time-24hr-format t)
+(display-time)
+
+;; Comfirm before kill emacs
+(setq confirm-kill-emacs 'yes-or-no-p)
+
+;; Disable insert key
+(global-set-key [insert] (lambda () (interactive)))
+(global-set-key [insertchar] (lambda () (interactive)))
+
+;; Show column/line number
+(setq column-number-mode t)
+(setq line-number-mode t)
+
+;; Show paren
+;; (setq show-paren-mode t)
+(show-paren-mode 1)
+
+;; Show trailing whitespace
+(setq-default show-trailing-whitespace t)
+
+;; Delete trailing whitespace before saving
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; C style
 (setq c-default-style "bsd")
+(add-hook 'c++-mode
+	  (lambda()
+	    (setq comment-start "/* " comment-end " */")))
 
 ;; Highlight lines with more than 80 columns
+(require 'column-enforce-mode)
+(global-column-enforce-mode t)
 (setq column-enforce-comments nil)
-(setq column-enforce-column 80)
+;; (setq column-enforce-column 80)
 
 ;; GNU Global source browsing
 (require 'ggtags)
@@ -54,50 +95,3 @@
   "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
       (cons '("\\.md" . markdown-mode) auto-mode-alist))
-
-;; ;; flymake for python
-;; (setq pylint "epylint")
-;; (when (load "flymake" t)
-;;   (defun flymake-pylint-init ()
-;;     (let* ((temp-file (flymake-init-create-temp-buffer-copy
-;; 		       'flymake-create-temp-inplace))
-;; 	   (local-file (file-relative-name
-;; 			temp-file
-;; 			(file-name-directory buffer-file-name))))
-;;       (list (expand-file-name pylint "") (list local-file))))
-;;   (add-to-list 'flymake-allowed-file-name-masks
-;; 	       '("\\.py\\'" flymake-pylint-init)))
-
-;; (add-hook 'python-mode-hook '(lambda () (flymake-mode)))
-
-;; git
-;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/elpa/git-commit-mode-0.12"))
-;; (require 'git-commit)
-;; (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
-;; (add-hook 'git-commit-mode-hook (lambda () (toggle-save-place 0)))
-
-;; Delete trailing whitespace before saving
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; Show trailing whitespace
-(setq-default show-trailing-whitespace t)
-
-;; Show column/line number
-(setq column-number-mode t)
-(setq line-number-mode t)
-
-;; Show paren
-;; (setq show-paren-mode t)
-(show-paren-mode 1)
-
-;; Comfirm before kill emacs
-(setq confirm-kill-emacs 'yes-or-no-p)
-
-;; Disable insert key
-(global-set-key [insert] (lambda () (interactive)))
-(global-set-key [insertchar] (lambda () (interactive)))
-
-;; Clock
-(setq display-time-and-date t
-      display-time-24hr-format t)
-(display-time)
