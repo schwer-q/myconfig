@@ -1,6 +1,7 @@
 [ui]
 # username =
 verbose = True
+style = ~/.hgstyle
 
 [extensions]
 color =
