@@ -49,7 +49,7 @@
 
 ;; C style
 (setq c-default-style "bsd")
-(add-hook 'c++-mode
+(add-hook 'c++-mode-hook
 	  (lambda()
 	    (setq comment-start "/* " comment-end " */")))
 
